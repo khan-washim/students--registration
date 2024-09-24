@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Student Registration Form</h2>
+        <form id="registrationForm" class="card p-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">Student Name</label>
+                <input type="text" id="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="class" class="form-label">Class</label>
+                <input type="text" id="class" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="roll" class="form-label">Roll Number</label>
+                <input type="number" id="roll" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="mobile" class="form-label">Mobile Number</label>
+                <input type="tel" id="mobile" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="parents" class="form-label">Parents' Names</label>
+                <input type="text" id="parents" class="form-control" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+        <div id="message" class="text-center mt-3"></div>
+        <div class="text-center mt-4">
+            <a href="students.html" class="btn btn-outline-primary">View Registered Students</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Embedded JavaScript -->
+    <script>
+        class Student {
+            constructor(name, studentClass, roll, mobile, email, parents) {
+                this.name = name;
+                this.studentClass = studentClass;
+                this.roll = roll;
+                this.mobile = mobile;
+                this.email = email;
+                this.parents = parents;
+            }
+        }
+
+        class StudentRegistration {
+            constructor() {
+                this.students = this.getStudentsFromLocalStorage();
+            }
+
+            addStudent(student) {
+                this.students.push(student);
+                this.saveStudentsToLocalStorage();
+            }
+
+            getStudentsFromLocalStorage() {
+                const students = localStorage.getItem('students');
+                return students ? JSON.parse(students) : [];
+            }
+
+            saveStudentsToLocalStorage() {
+                localStorage.setItem('students', JSON.stringify(this.students));
+            }
+        }
+
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const studentClass = document.getElementById('class').value;
+            const roll = document.getElementById('roll').value;
+            const mobile = document.getElementById('mobile').value;
+            const email = document.getElementById('email').value;
+            const parents = document.getElementById('parents').value;
+
+            const student = new Student(name, studentClass, roll, mobile, email, parents);
+            const registration = new StudentRegistration();
+            registration.addStudent(student);
+
+            // Redirect to the students page after registration
+            window.location.href = 'students.html';
+        });
+    </script>
+</body>
+</html>
